@@ -14,7 +14,7 @@ check-tag.sh -f kinetic -v 1.1.1
 This would result in a tag of \"kinetic-v1.1.1\".\n"
 
 # Set defaults
-DEBUG=true
+DEBUG=false
 
 # Get arguments
 while getopts "hf:v:d" opt; do
