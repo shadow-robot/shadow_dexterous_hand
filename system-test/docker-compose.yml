@@ -9,4 +9,4 @@ services:
   system-under-test:
     build:
       context: ..
-    command: ["/usr/local/bin/setup.sh", "-t"]
+    command: ["roscore"]
