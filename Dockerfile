@@ -1,7 +1,5 @@
 FROM shadowrobot/build-tools:xenial-kinetic-ide
 
-MAINTAINER "Shadow Robot's Software Team <software@shadowrobot.com>"
-
 LABEL Description="This ROS Kinetic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
 ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/ansible/deploy.sh"
