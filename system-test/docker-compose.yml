@@ -6,7 +6,6 @@ services:
       - system-under-test
     environment:
       - "ROS_MASTER_URI=http://system-under-test:11311"
-      - "REST_SERVER_URI=http://system-under-test:8080"
   system-under-test:
     build:
       context: ..
