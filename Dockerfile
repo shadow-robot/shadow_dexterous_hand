@@ -4,7 +4,9 @@ LABEL Description="This ROS Indigo image contains Shadow's dexterous hand softwa
 
 ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/bin/setup_dev_machine"
 
-RUN echo "Fixing file system" && \
+RUN set +x && \
+    \
+    echo "Fixing file system" && \
     mkdir -p /etc/apt/sources.list.d && \
     rm -f /etc/apt/sources.list.d/ros-latest.list && \
     \
