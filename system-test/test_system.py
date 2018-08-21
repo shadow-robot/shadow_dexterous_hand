@@ -5,7 +5,6 @@ import subprocess
 import rospy
 import unittest
 import time
-import urllib2
 from sensor_msgs.msg import JointState
 
 
