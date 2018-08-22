@@ -9,4 +9,4 @@ services:
   system-under-test:
     build:
       context: ..
-    command: ["roscore"]
+    command: /ros_entrypoint.sh roscore
