@@ -18,6 +18,11 @@ RUN set +x && \
     wget -O /tmp/production_tools https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$(echo $toolset_branch | sed 's/#/%23/g')/bin/install-production-tools.sh && \
     bash /tmp/production_tools -v "$ros_release_name" -b "$toolset_branch"  && \
     \
+    echo "Installing AWS CLI" && \
+    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "/tmp/awscli-bundle.zip" && \
+    unzip -o /tmp/awscli-bundle.zip -d /tmp/ && \
+    /tmp/awscli-bundle/install -b /usr/local/bin/aws && \
+    \
     echo "Removing cache" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig
