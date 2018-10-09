@@ -58,16 +58,22 @@ exit_clean() {
 # Trap any unexpected errors with an error report and the cleanup function
 trap 'cleanup ; printf "Tests failed for unexpected reasons..."' HUP INT QUIT PIPE TERM
 
-# Try building test image(s)
-docker-compose -p $TEST_BUILD_TAG build
+#Try running the compose, which will run tests etc.
+#stop containers
+docker-compose -p $TEST_BUILD_TAG stop
+#remove containers created by up previously
+docker-compose -p $TEST_BUILD_TAG down
+#remove images
+docker-compose -p $TEST_BUILD_TAG rm -f
+#pull latest images
+docker-compose -p $TEST_BUILD_TAG pull
+#build and up latest images
+docker-compose -p $TEST_BUILD_TAG up --build -d
 if [ $? -ne 0 ]; then
   echo "Failed to build test image(s)."
   exit_clean 1
 fi
 echo "Successfully built test image(s)."
-
-# Try running the compose, which will run tests etc.
-docker-compose -p $TEST_BUILD_TAG up -d
 docker attach ${TEST_BUILD_TAG}_system-test_1
 if [ $? -ne 0 ]; then
   echo "Failed to run docker compose."
