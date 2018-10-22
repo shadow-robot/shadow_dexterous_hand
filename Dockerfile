@@ -1,6 +1,7 @@
 FROM shadowrobot/build-tools:xenial-kinetic-ide
 
 LABEL Description="This ROS Kinetic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
+# Dockerfile changes MUST BE REMOVED before merging (the only change is this line below - it refers to a branch in sr-build-tools which can be removed as well
 ARG toolset_branch="B_parent_image_toivo"
 
 ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/ansible/deploy.sh"
