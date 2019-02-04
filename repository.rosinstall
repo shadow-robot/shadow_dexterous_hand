@@ -5,7 +5,7 @@
 
 - git:
     uri: https://github.com/shadow-robot/sr_common.git
-    version: F_#SRC-2682_hand_e_mujoco
+    version: kinetic-devel
     local-name: sr_common
 
 - git:
@@ -15,7 +15,7 @@
 
 - git:
     uri: https://github.com/shadow-robot/sr_interface.git
-    version: F_#SRC-2682_hand_e_mujoco
+    version: kinetic-devel
     local-name: sr_interface
 
 - git:
