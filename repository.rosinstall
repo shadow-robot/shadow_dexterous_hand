@@ -85,7 +85,7 @@
 
 - git:
     local-name: moveit
-    uri: https://github.com/shadow-robot/moveit.git
+    uri: https://github.com/ros-planning/moveit.git
     version: kinetic-devel
 
 - git:
