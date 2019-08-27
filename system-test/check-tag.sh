@@ -1,6 +1,8 @@
 #!/bin/bash
+# PLEASE CHANGE the image value to match the desired Docker Hub Image
+image=shadowrobot/dexterous-hand
 
-USAGE="\nA script to use check whether a git release tag is a valid increment. Should be run within a git folder. Usage:
+USAGE="\nA script to use check whether a Docker Hub release tag is a valid increment. Should be run within a git folder. Usage:
 
 check-tag.sh [-h] [-d] -f flavour -v version
 
@@ -67,12 +69,18 @@ TAG_FULL="${TAG_FLAVOUR}-v${TAG_VERSION}"
 
 if $DEBUG ; then echo -e "Checking release tag: \"${TAG_FULL}\"" ; fi
 
-# Get current git tags
-ALL_REPO_TAGS=($(git tag -l))
-if [ $? -ne 0 ]; then
-  echo -e "Error: failed to get current Git tags. Aborting."
-  exit 1
-fi
+# Get current Docker Hub tags
+echo "Getting a list of Docker Hub tags for $image"
+url=https://cloud.docker.com/v2/repositories/$image/tags/?page_size=100
+token=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$DOCKER_HUB_USERNAME'", "password": "'$DOCKER_HUB_PASSWORD'"}' https://hub.docker.com/v2/users/login/ | python -c 'import sys, json; data = json.load(sys.stdin); print(data["token"])')
+declare -a ALL_REPO_TAGS=($(
+(
+  while [ ! $url == "None" ]; do
+    content=$(curl -s -H "Authorization: JWT $token" $url | python -c 'import sys, json; data = json.load(sys.stdin); has_next=data.get("next","") if "next" in data else ""; result = " ".join([x["name"] for x in data["results"]]) if "results" in data else ""; print(has_next); print(result)')
+    url=$(echo "$content" | head -n 1)
+    echo "$content" | tail -n +2
+  done;
+)  | sort --version-sort | uniq;))
 
 if [ -z "$ALL_REPO_TAGS" ]; then
   echo -e "Warning: There are no tags in the current git repository. Allowing creation of ${TAG_FULL}."
