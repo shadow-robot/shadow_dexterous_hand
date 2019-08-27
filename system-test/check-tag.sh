@@ -70,7 +70,7 @@ TAG_FULL="${TAG_FLAVOUR}-v${TAG_VERSION}"
 if $DEBUG ; then echo -e "Checking release tag: \"${TAG_FULL}\"" ; fi
 
 # Get current Docker Hub tags
-echo "Getting a list of Docker Hub tags for $image"
+echo "Checking Docker Hub if $image:$TAG_FULL can be released"
 url=https://cloud.docker.com/v2/repositories/$image/tags/?page_size=100
 token=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$DOCKER_HUB_USERNAME'", "password": "'$DOCKER_HUB_PASSWORD'"}' https://hub.docker.com/v2/users/login/ | python -c 'import sys, json; data = json.load(sys.stdin); print(data["token"])')
 declare -a ALL_REPO_TAGS=($(
@@ -83,7 +83,7 @@ declare -a ALL_REPO_TAGS=($(
 )  | sort --version-sort | uniq;))
 
 if [ -z "$ALL_REPO_TAGS" ]; then
-  echo -e "Warning: There are no tags in the Docker Hub for image:$image. Allowing creation of ${TAG_FULL}."
+  echo -e "Warning: There are no tags in the Docker Hub for image:$image. Allowing creation of $image:${TAG_FULL}."
   exit 0
 else # Find current repo tags that are releases, and that are the same flavour as the request
   if $DEBUG ; then echo -e "There are ${#ALL_REPO_TAGS[*]} Docker Hub tags in the repository:" ; fi
