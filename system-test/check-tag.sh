@@ -83,10 +83,10 @@ declare -a ALL_REPO_TAGS=($(
 )  | sort --version-sort | uniq;))
 
 if [ -z "$ALL_REPO_TAGS" ]; then
-  echo -e "Warning: There are no tags in the current git repository. Allowing creation of ${TAG_FULL}."
+  echo -e "Warning: There are no tags in the Docker Hub for image:$image. Allowing creation of ${TAG_FULL}."
   exit 0
 else # Find current repo tags that are releases, and that are the same flavour as the request
-  if $DEBUG ; then echo -e "There are ${#ALL_REPO_TAGS[*]} git tags in the repository:" ; fi
+  if $DEBUG ; then echo -e "There are ${#ALL_REPO_TAGS[*]} Docker Hub tags in the repository:" ; fi
   if $DEBUG ; then echo -e ${ALL_REPO_TAGS[@]} ; fi
   VERSION_REPO_TAGS=()
   VERSION_REPO_VERSIONS=()
