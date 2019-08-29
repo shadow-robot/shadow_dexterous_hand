@@ -12,6 +12,9 @@ env:
      DOCKER_HUB_PASSWORD: DOCKER_HUB_PASSWORD
      id_rsa: id_rsa
 phases:
+  install:
+    runtime-versions:
+      docker: 18
   build:
     commands:
       - chown -R $MY_USERNAME:$MY_USERNAME $CODEBUILD_SRC_DIR
