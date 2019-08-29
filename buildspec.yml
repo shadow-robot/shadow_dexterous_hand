@@ -4,7 +4,7 @@ env:
   variables:
      docker_image_branch: F#SRC-3404_docker_release_on_AWS
      release_tag_flavour: kinetic
-     release_tag_version: 1.0.27
+     release_tag_version: 1.0.28
   parameter-store:
      GITHUB_LOGIN : GITHUB_LOGIN
      GITHUB_PASSWORD : GITHUB_PASSWORD
