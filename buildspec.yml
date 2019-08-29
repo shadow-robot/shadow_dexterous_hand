@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-     docker_image_branch: kinetic-devel
+     docker_image_branch: F#SRC-3404_docker_release_on_AWS
      release_tag_flavour: kinetic
      release_tag_version: 1.0.27
   parameter-store:
@@ -12,15 +12,12 @@ env:
      DOCKER_HUB_PASSWORD: DOCKER_HUB_PASSWORD
      id_rsa: id_rsa
 phases:
-  install:
-    runtime-versions:
-      docker: 18
   build:
     commands:
       - chown -R $MY_USERNAME:$MY_USERNAME $CODEBUILD_SRC_DIR
       - git checkout $docker_image_branch
       - echo "Setting up the nginx server"
-      - cp --no-preserve=mode,ownership $id_rsa ./id_rsa
+      - echo $id_rsa >> ./id_rsa
       - docker run --name=nginx-ssh -d -v $CODEBUILD_SRC_DIR:/usr/share/nginx/html -p 8008:80 nginx
       - cd $(find . -name system-test)
       - ./check-tag.sh -f $release_tag_flavour -v $release_tag_version
