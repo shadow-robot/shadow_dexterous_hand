@@ -64,7 +64,16 @@ if [ -z "$ALL_REPO_TAGS" ]; then
 else
   if $DEBUG ; then echo -e "There are ${#ALL_REPO_TAGS[*]} Docker Hub tags in the repository:" ; fi
   if $DEBUG ; then echo -e ${ALL_REPO_TAGS[@]} ; fi
-  HIGHEST_TAG=${ALL_REPO_TAGS[0]}
+  VERSION_REPO_TAGS=()
+  VERSION_REPO_TAG_REGEX='^(.*)-v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
+  for repo_tag in ${ALL_REPO_TAGS[@]}; do
+    if [[ "$repo_tag" =~ $VERSION_REPO_TAG_REGEX ]]; then
+      if [ "${BASH_REMATCH[1]}" == "$TAG_FLAVOUR" ]; then
+        VERSION_REPO_TAGS+=("$repo_tag")
+      fi
+    fi
+  done
+  HIGHEST_TAG=${VERSION_REPO_TAGS[0]}
   VERSION_REPO_TAG_REGEX='^(.*)-v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
   if [[ "$HIGHEST_TAG" =~ $VERSION_REPO_TAG_REGEX ]]; then
     if [ "${BASH_REMATCH[1]}" == "$TAG_FLAVOUR" ]; then
