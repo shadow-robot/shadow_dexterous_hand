@@ -45,7 +45,7 @@ fi
 
 # Get current Docker Hub tags
 if $DEBUG ; then echo -e "Checking Docker Hub versions for image:$image:$TAG_FLAVOUR" ; fi
-NEW_TAG="$TAG_FLAVOUR-v0.0.0"
+NEW_VERSION="0.0.0"
 url=https://cloud.docker.com/v2/repositories/$image/tags/?page_size=100
 token=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$DOCKER_HUB_USERNAME'", "password": "'$DOCKER_HUB_PASSWORD'"}' https://hub.docker.com/v2/users/login/ | python -c 'import sys, json; data = json.load(sys.stdin); print(data["token"])')
 declare -a ALL_REPO_TAGS=($(
@@ -58,7 +58,7 @@ declare -a ALL_REPO_TAGS=($(
 )  | sort --version-sort | uniq;))
 
 if [ -z "$ALL_REPO_TAGS" ]; then
-  if $DEBUG ; then echo -e "Warning: There are no tags in the Docker Hub for image:$image. The next available tag is:$image:$NEW_TAG" ; fi
+  if $DEBUG ; then echo -e "Warning: There are no tags in the Docker Hub for image:$image. The next available tag is:$image:$TAG_FLAVOUR-v$NEW_VERSION" ; fi
   echo $next_version
   exit 0
 else
@@ -77,9 +77,9 @@ else
   VERSION_REPO_TAG_REGEX='^(.*)-v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
   if [[ "$HIGHEST_TAG" =~ $VERSION_REPO_TAG_REGEX ]]; then
     if [ "${BASH_REMATCH[1]}" == "$TAG_FLAVOUR" ]; then
-      NEW_TAG="$TAG_FLAVOUR-v${BASH_REMATCH[2]}.${BASH_REMATCH[3]}.$((${BASH_REMATCH[4]}+1))"
+      NEW_VERSION="${BASH_REMATCH[2]}.${BASH_REMATCH[3]}.$((${BASH_REMATCH[4]}+1))"
     fi
   fi
 fi
-echo $NEW_TAG
+echo $NEW_VERSION
 exit 0
