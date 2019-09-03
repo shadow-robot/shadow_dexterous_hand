@@ -10,17 +10,18 @@ env:
      GITHUB_PASSWORD : GITHUB_PASSWORD
      DOCKER_HUB_USERNAME: DOCKER_HUB_USERNAME
      DOCKER_HUB_PASSWORD: DOCKER_HUB_PASSWORD
-     id_rsa: id_rsa
+     id_rsa_base64: id_rsa_base64
 phases:
   install:
     runtime-versions:
       docker: 18
   build:
     commands:
-      - chown -R $MY_USERNAME:$MY_USERNAME $CODEBUILD_SRC_DIR
       - git checkout $release_branch
       - echo "Setting up the nginx server"
-      - echo $id_rsa >> ./id_rsa
+      - echo $id_rsa_base64 >> id_rsa_base64
+      - base64 -d id_rsa_base64 > id_rsa
+      - chmod 404 id_rsa
       - docker run --name=nginx-ssh -d -v $CODEBUILD_SRC_DIR:/usr/share/nginx/html -p 8008:80 nginx
       - cd $(find . -name system-test)
       - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
@@ -31,4 +32,4 @@ phases:
       - echo "Killing nginx server..."
       - docker stop nginx-ssh && docker rm nginx-ssh
       - echo "Removing ssh key ..."
-      - cd $CODEBUILD_SRC_DIR && rm -f id_rsa
+      - cd $CODEBUILD_SRC_DIR && rm -f id_rsa*
