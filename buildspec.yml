@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  variables:
+     release_branch: kinetic-devel
+     release_tag_flavour: kinetic
+     release_tag_version: 0.0.0
+  parameter-store:
+     GITHUB_LOGIN : GITHUB_LOGIN
+     GITHUB_PASSWORD : GITHUB_PASSWORD
+     DOCKER_HUB_USERNAME: DOCKER_HUB_USERNAME
+     DOCKER_HUB_PASSWORD: DOCKER_HUB_PASSWORD
+     id_rsa_base64: id_rsa_base64
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  build:
+    commands:
+      - git checkout $release_branch
+      - echo "Setting up the nginx server"
+      - echo $id_rsa_base64 >> id_rsa_base64
+      - base64 -d id_rsa_base64 > id_rsa
+      - chmod 404 id_rsa
+      - docker run --name=nginx-ssh -d -v $CODEBUILD_SRC_DIR:/usr/share/nginx/html -p 8008:80 nginx
+      - cd $(find . -name system-test)
+      - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
+      - ./check-tag.sh -f $release_tag_flavour -v $release_tag_version
+      - ./system-test.sh
+  post_build:
+    commands:
+      - echo "Killing nginx server..."
+      - docker stop nginx-ssh && docker rm nginx-ssh
+      - echo "Removing ssh key ..."
+      - cd $CODEBUILD_SRC_DIR && rm -f id_rsa*
