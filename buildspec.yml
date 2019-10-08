@@ -25,7 +25,7 @@ phases:
       - docker run --name=nginx-ssh -d -v $CODEBUILD_SRC_DIR:/usr/share/nginx/html -p 8008:80 nginx
       - cd $(find . -name system-test)
       - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
-      - ./check-tag.sh -f $release_tag_flavour -v $release_tag_version
+      - if [ "$release_tag_version" != "night-build" ]; then ./check-tag.sh -f $release_tag_flavour -v $release_tag_version; fi
       - ./system-test.sh
   post_build:
     commands:
