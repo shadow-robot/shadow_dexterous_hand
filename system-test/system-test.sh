@@ -95,7 +95,11 @@ else
 fi
 
 # Tag and push built image-under-test to Docker hub
-DOCKER_HUB_TAG="shadowrobot/dexterous-hand:${release_tag_flavour}-v${release_tag_version}"
+VERSION_REGEX='^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
+if [[ "$release_tag_version" =~ $VERSION_REGEX ]]; then
+  release_tag_version="v${release_tag_version}"
+fi
+DOCKER_HUB_TAG="shadowrobot/dexterous-hand:${release_tag_flavour}-${release_tag_version}"
 docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
 if [ $? -ne 0 ]; then
   echo "Error: Failed to log in to Docker Hub. Aborting."
