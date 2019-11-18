@@ -15,7 +15,7 @@
 
 - git:
     uri: https://github.com/shadow-robot/sr_interface.git
-    version: kinetic-devel
+    version: F#SRC-3664_external_control_loop
     local-name: sr_interface
 
 - git:
