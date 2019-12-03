@@ -6,6 +6,9 @@ ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build
 
 ENV PROJECTS_WS=/home/user/projects/shadow_robot
 
+ENV aurora_branch="master"
+ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
+
 RUN set +x && \
     \
     echo "Running one-liner" && \
@@ -18,10 +21,10 @@ RUN set +x && \
     wget -O /tmp/production_tools https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$(echo $toolset_branch | sed 's/#/%23/g')/bin/install-production-tools.sh && \
     bash /tmp/production_tools -v "$ros_release_name" -b "$toolset_branch"  && \
     \
-    echo "Installing AWS CLI" && \
-    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "/tmp/awscli-bundle.zip" && \
-    unzip -o /tmp/awscli-bundle.zip -d /tmp/ && \
-    /tmp/awscli-bundle/install -b /usr/local/bin/aws && \
+    echo "Installing AWS CLI and libglvnd" && \
+    wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
+    chmod 755 /tmp/aurora && \
+    gosu $MY_USERNAME /tmp/aurora install_software --debug-branch $aurora_branch software=[aws-cli,libglvnd] && \
     \
     echo "Removing cache" && \
     apt-get clean && \
