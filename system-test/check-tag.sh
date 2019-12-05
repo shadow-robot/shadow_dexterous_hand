@@ -71,7 +71,7 @@ if $DEBUG ; then echo -e "Checking release tag: \"${TAG_FULL}\"" ; fi
 
 # Get current Docker Hub tags
 echo "Checking Docker Hub if $image:$TAG_FULL can be released"
-url=https://cloud.docker.com/v2/repositories/$image/tags/?page_size=100
+url=https://hub.docker.com/v2/repositories/$image/tags/?page_size=100
 token=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$DOCKER_HUB_USERNAME'", "password": "'$DOCKER_HUB_PASSWORD'"}' https://hub.docker.com/v2/users/login/ | python -c 'import sys, json; data = json.load(sys.stdin); print(data["token"])')
 declare -a ALL_REPO_TAGS=($(
 (
