@@ -46,7 +46,7 @@ fi
 # Get current Docker Hub tags
 if $DEBUG ; then echo -e "Checking Docker Hub versions for image:$image:$TAG_FLAVOUR" ; fi
 NEW_VERSION="0.0.0"
-url=https://cloud.docker.com/v2/repositories/$image/tags/?page_size=100
+url=https://hub.docker.com/v2/repositories/$image/tags/?page_size=100
 token=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'$DOCKER_HUB_USERNAME'", "password": "'$DOCKER_HUB_PASSWORD'"}' https://hub.docker.com/v2/users/login/ | python -c 'import sys, json; data = json.load(sys.stdin); print(data["token"])')
 declare -a ALL_REPO_TAGS=($(
 (
