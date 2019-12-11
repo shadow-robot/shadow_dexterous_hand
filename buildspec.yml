@@ -2,8 +2,8 @@ version: 0.2
 
 env:
   variables:
-     release_branch: kinetic-devel
-     release_tag_flavour: kinetic
+     release_branch: melodic-devel
+     release_tag_flavour: melodic
      release_tag_version: 0.0.0
   parameter-store:
      GITHUB_LOGIN : GITHUB_LOGIN
