@@ -25,7 +25,7 @@
 
 - git:
     uri: https://github.com/shadow-robot/sr-ros-interface-ethercat.git
-    version: kinetic-devel
+    version: melodic-devel
     local-name: shadow_robot_ethercat
 
 - git:
@@ -51,7 +51,7 @@
 - git:
     local-name: sr_config
     uri: https://github.com/shadow-robot/sr-config.git
-    version: kinetic-devel
+    version: melodic-devel
 
 - git:
     local-name: ros_control_robot
