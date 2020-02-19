@@ -87,3 +87,9 @@
     local-name: fmauch_universal_robot
     uri: https://github.com/fmauch/universal_robot.git
     version: calibration_devel
+
+- git:
+    local-name: sr_ur_calibration
+    uri: https://github.com/shadow-robot/sr_ur_calibration.git
+    version: master
+
