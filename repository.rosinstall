@@ -44,11 +44,6 @@
     version: melodic-devel
 
 - git:
-    local-name: sr_ur_arm
-    uri: https://github.com/shadow-robot/sr_ur_arm.git
-    version: melodic-devel
-    
-- git:
     local-name: sr_config
     uri: https://github.com/shadow-robot/sr-config.git
     version: melodic-devel
