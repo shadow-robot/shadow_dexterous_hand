@@ -88,7 +88,3 @@
     uri: https://github.com/fmauch/universal_robot.git
     version: calibration_devel
 
-- git:
-    local-name: sr_ur_calibration
-    uri: git@github.com:shadow-robot/sr_ur_calibration.git
-    version: master
