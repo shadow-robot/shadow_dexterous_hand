@@ -55,7 +55,7 @@ declare -a ALL_REPO_TAGS=($(
     url=$(echo "$content" | head -n 1)
     echo "$content" | tail -n +2
   done;
-)  | sort --version-sort | uniq;))
+)  | tr ' ' '\n' | sort -r --version-sort | uniq;))
 
 if [ -z "$ALL_REPO_TAGS" ]; then
   if $DEBUG ; then echo -e "Warning: There are no tags in the Docker Hub for image:$image. The next available tag is:$image:$TAG_FLAVOUR-v$NEW_VERSION" ; fi
