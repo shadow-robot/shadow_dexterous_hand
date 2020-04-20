@@ -10,7 +10,7 @@
 
 - git:
     uri: https://github.com/shadow-robot/sr_core.git
-    version: F_fixing_melodic
+    version: melodic-devel
     local-name: sr_core
 
 - git:
