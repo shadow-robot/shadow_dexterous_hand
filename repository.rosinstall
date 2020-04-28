@@ -72,7 +72,7 @@
     local-name: sr_cyberglove_config
     uri: https://github.com/shadow-robot/sr_cyberglove_config.git
     version: master
-
+    
 - git:
     local-name: Universal_Robots_ROS_Driver
     uri: https://github.com/shadow-robot/Universal_Robots_ROS_Driver.git
@@ -82,4 +82,8 @@
     local-name: universal_robot
     uri: https://github.com/fmauch/universal_robot.git
     version: calibration_devel
-
+    
+- git:
+    local-name: sr_tests
+    uri: https://github.com/shadow-robot/sr_tests.git
+    version: melodic-devel
