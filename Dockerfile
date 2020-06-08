@@ -40,7 +40,7 @@ RUN set +x && \
     echo "Installing AWS CLI and libglvnd" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --debug-branch $aurora_branch software=[aws-cli,libglvnd] && \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd] && \
     \
     echo "Removing cache" && \
     apt-get clean && \
