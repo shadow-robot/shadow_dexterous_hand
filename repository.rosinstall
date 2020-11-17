@@ -75,8 +75,8 @@
     
 - git:
     local-name: Universal_Robots_ROS_Driver
-    uri: https://github.com/shadow-robot/Universal_Robots_ROS_Driver.git
-    version: local_hw_interface_and_fixed_doSwitch
+    uri: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
+    version: master
 
 - git:
     local-name: universal_robot
