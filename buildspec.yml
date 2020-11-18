@@ -28,6 +28,7 @@ phases:
       - chmod 404 id_rsa
       - echo AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI >> AWS_CRED
       - echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> AWS_CRED
+      - docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
       - docker run --name=nginx-ssh -d -v $CODEBUILD_SRC_DIR:/usr/share/nginx/html -p 8008:80 nginx
       - cd $(find . -name system-test)
       - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
