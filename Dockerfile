@@ -1,4 +1,4 @@
-FROM shadowrobot/build-tools:bionic-melodic-ide
+FROM shadowrobot/build-tools:bionic-melodic
 
 LABEL Description="This ROS Melodic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
