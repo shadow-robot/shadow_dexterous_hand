@@ -8,7 +8,7 @@ ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
 ENV rosinstall_repo_branch=melodic-devel
 
-ENV aurora_branch="master"
+ENV aurora_branch="SRC-6025_fix_vscode"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
 
 RUN set +x && \
@@ -40,7 +40,7 @@ RUN set +x && \
     echo "Installing AWS CLI and libglvnd" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd] && \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd,vscode] && \
     \
     echo "Removing cache" && \
     apt-get clean && \
