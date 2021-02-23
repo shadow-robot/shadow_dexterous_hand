@@ -8,7 +8,7 @@ ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
 ENV rosinstall_repo_branch=melodic-devel
 
-ENV aurora_branch="SRC-6025_fix_vscode"
+ENV aurora_branch="master"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
 
 RUN set +x && \
