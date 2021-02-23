@@ -1,4 +1,4 @@
-FROM shadowrobot/build-tools:bionic-melodic-ide
+FROM shadowrobot/build-tools:bionic-melodic
 
 LABEL Description="This ROS Melodic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
@@ -40,7 +40,7 @@ RUN set +x && \
     echo "Installing AWS CLI and libglvnd" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd] && \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd,vscode] && \
     \
     echo "Removing cache" && \
     apt-get clean && \
