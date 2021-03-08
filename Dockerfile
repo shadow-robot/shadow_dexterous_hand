@@ -1,4 +1,4 @@
-FROM shadowrobot/build-tools:focal-noetic
+FROM public.ecr.aws/shadowrobot/build-tools:focal-noetic
 
 LABEL Description="This ROS Melodic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
