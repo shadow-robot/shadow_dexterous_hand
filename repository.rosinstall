@@ -46,7 +46,7 @@
 - git:
     local-name: sr_config
     uri: https://github.com/shadow-robot/sr-config.git
-    version: melodic-devel
+    version: noetic-devel
 
 - git:
     local-name: ros_control_robot
