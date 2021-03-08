@@ -1,8 +1,8 @@
-FROM shadowrobot/build-tools:bionic-melodic
+FROM shadowrobot/build-tools:focal-noetic
 
 LABEL Description="This ROS Melodic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
-ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/ansible/deploy.sh"
+ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/python3/ansible/deploy.sh"
 
 ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
@@ -31,7 +31,7 @@ RUN set +x && \
     apt-get update && \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \
-    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "$ros_release_name" -s true -t mongodb,pyassimp,pyqtgraph && \
+    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s true && \
     \
     echo "Installing production tools" && \
     wget -O /tmp/production_tools https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$(echo $toolset_branch | sed 's/#/%23/g')/bin/install-production-tools.sh && \
