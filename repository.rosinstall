@@ -34,11 +34,6 @@
     local-name: sr_visualization
 
 - git:
-    local-name: sr_teleop_devices
-    uri: https://github.com/shadow-robot/sr_teleop_devices.git
-    version: noetic-devel
-
-- git:
     local-name: ros_ethercat
     uri: https://github.com/shadow-robot/ros_ethercat.git
     version: noetic-devel
