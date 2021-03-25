@@ -80,6 +80,6 @@
  
 - git:
     local-name: trac_ik
-    uri: git@bitbucket.org:traclabs/trac_ik.git
+    uri: https://{{github_login}}:{{github_password}}@github.com/shadow-robot/trac_ik.git
     version: master
     
