@@ -77,3 +77,9 @@
     local-name: sr_tests
     uri: https://github.com/shadow-robot/sr_tests.git
     version: noetic-devel
+ 
+ - git:
+    local-name: trac_ik
+    uri: https://bitbucket.org/traclabs/trac_ik.git
+    version: master
+    
