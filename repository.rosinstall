@@ -80,6 +80,6 @@
  
 - git:
     local-name: trac_ik
-    uri: https://bitbucket.org/traclabs/trac_ik.git
+    uri: git@bitbucket.org:traclabs/trac_ik.git
     version: master
     
