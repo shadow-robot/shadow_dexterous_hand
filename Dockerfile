@@ -37,10 +37,10 @@ RUN set +x && \
     wget -O /tmp/production_tools https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$(echo $toolset_branch | sed 's/#/%23/g')/bin/install-production-tools.sh && \
     bash /tmp/production_tools -v "$ros_release_name" -b "$toolset_branch"  && \
     \
-    echo "Installing AWS CLI and libglvnd" && \
+    echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd,vscode] && \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd,vscode,warehouse_ros] && \
     \
     echo "Removing cache" && \
     apt-get clean && \
