@@ -42,10 +42,6 @@ RUN set +x && \
     chmod 755 /tmp/aurora && \
     gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli,libglvnd,vscode,warehouse_ros] && \
     \
-    echo "Temp step for ethercat_grant (needs removing once its available on noetic" && \
-    cp /home/user/projects/shadow_robot/base/devel/lib/ethercat_grant/ethercat_grant /usr/local/bin && \
-    chmod +s /usr/local/bin/ethercat_grant && \
-    \
     echo "Removing cache" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig /root/.cache
