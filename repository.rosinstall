@@ -76,12 +76,12 @@
 - git:
     local-name: Universal_Robots_ROS_Driver
     uri: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
-    version: master
+    version: a362e9490fe2f687ef9c2256836302fb6cb887e7
 
 - git:
     local-name: universal_robot
-    uri: https://github.com/ros-industrial/universal_robot.git
-    version: melodic-devel-staging
+    uri: https://github.com/shadow-robot/universal_robot.git
+    version: F_#SRC-4392_UR10_CoG
     
 - git:
     local-name: sr_tests
