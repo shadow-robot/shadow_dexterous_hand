@@ -30,8 +30,8 @@ RUN set +x && \
     echo "Running one-liner" && \
     apt-get update && \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
-    chmod 755 /tmp/oneliner && \
-    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s true && \
+    chmod 755 /tmp/oneliner && \ 
+    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s true -t pyqtgraph&& \
     \
     echo "Installing production tools" && \
     wget -O /tmp/production_tools https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$(echo $toolset_branch | sed 's/#/%23/g')/bin/install-production-tools.sh && \
