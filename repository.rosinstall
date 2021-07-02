@@ -60,8 +60,8 @@
     
 - git:
     local-name: Universal_Robots_ROS_Driver
-    uri: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver.git
-    version: a362e94
+    uri: https://github.com/shadow-robot/Universal_Robots_ROS_Driver.git
+    version: noetic_stable_driver
 
 - git:
     local-name: universal_robot
