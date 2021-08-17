@@ -10,7 +10,6 @@ env:
      GITHUB_PASSWORD : GITHUB_PASSWORD
      DOCKER_HUB_USERNAME: DOCKER_HUB_USERNAME
      DOCKER_HUB_PASSWORD: DOCKER_HUB_PASSWORD
-     id_rsa_base64: id_rsa_base64
   exported-variables:
      - release_branch
      - release_tag_flavour
@@ -23,9 +22,6 @@ phases:
     commands:
       - git checkout $release_branch
       - echo "Setting up the nginx server"
-      - echo $id_rsa_base64 >> id_rsa_base64
-      - base64 -d id_rsa_base64 > id_rsa
-      - chmod 404 id_rsa
       - echo AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI >> AWS_CRED
       - echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> AWS_CRED
       - docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
@@ -40,5 +36,3 @@ phases:
     commands:
       - echo "Killing nginx server..."
       - docker stop nginx-ssh && docker rm nginx-ssh
-      - echo "Removing ssh key ..."
-      - cd $CODEBUILD_SRC_DIR && rm -f id_rsa*
