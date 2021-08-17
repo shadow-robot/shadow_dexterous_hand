@@ -36,5 +36,3 @@ phases:
     commands:
       - echo "Killing nginx server..."
       - docker stop nginx-ssh && docker rm nginx-ssh
-      - echo "Removing ssh key ..."
-      - cd $CODEBUILD_SRC_DIR && rm -f id_rsa*
