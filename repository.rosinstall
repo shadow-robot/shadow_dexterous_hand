@@ -71,14 +71,14 @@
 - git:
     local-name: plotjuggler
     uri: https://github.com/facontidavide/PlotJuggler.git
-    version: main
+    version: tags/3.2.0
 
 - git:
     local-name: plotjuggler-ros-plugins
     uri: https://github.com/PlotJuggler/plotjuggler-ros-plugins.git
-    version: development
+    version: tags/1.5.0
 
 - git:
     local-name: plotjuggler_msgs
     uri: https://github.com/PlotJuggler/plotjuggler_msgs.git
-    version: ros1
+    version: tags/0.1.1
