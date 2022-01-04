@@ -56,12 +56,12 @@
 - git:
     local-name: Universal_Robots_ROS_Driver
     uri: https://github.com/shadow-robot/Universal_Robots_ROS_Driver.git
-    version: noetic-devel
+    version: master
 
 - git:
     local-name: universal_robot
     uri: https://github.com/shadow-robot/universal_robot.git
-    version: noetic-devel
+    version: calibration_devel
     
 - git:
     local-name: sr_tests
