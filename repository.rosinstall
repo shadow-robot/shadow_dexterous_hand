@@ -67,3 +67,18 @@
     local-name: sr_tests
     uri: https://github.com/shadow-robot/sr_tests.git
     version: noetic-devel
+
+- git:
+    local-name: plotjuggler
+    uri: https://github.com/facontidavide/PlotJuggler.git
+    version: tags/3.2.0
+
+- git:
+    local-name: plotjuggler-ros-plugins
+    uri: https://github.com/PlotJuggler/plotjuggler-ros-plugins.git
+    version: tags/1.4.1
+
+- git:
+    local-name: plotjuggler_msgs
+    uri: https://github.com/PlotJuggler/plotjuggler_msgs.git
+    version: tags/0.1.1
