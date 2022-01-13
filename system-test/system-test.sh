@@ -99,7 +99,8 @@ VERSION_REGEX='^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
 if [[ "$release_tag_version" =~ $VERSION_REGEX ]]; then
   release_tag_version="v${release_tag_version}"
 fi
-DOCKER_HUB_TAG="public.ecr.aws/shadowrobot/dexterous-hand:${release_tag_flavour}-${release_tag_version}"
+DOCKER_HUB_TAG="shadowrobot/dexterous-hand:${release_tag_flavour}-${release_tag_version}"
+
 docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
 if [ $? -ne 0 ]; then
   echo "Error: Failed to log in to Docker Hub. Aborting."
@@ -115,7 +116,12 @@ if [ $? -ne 0 ]; then
   echo "Error: Failed to tag built Docker image as \"${DOCKER_HUB_TAG}\". Aborting."
   exit_clean 1
 fi
-docker push  ${DOCKER_HUB_TAG}
+docker push public.ecr.aws/${DOCKER_HUB_TAG}
+if [ $? -ne 0 ]; then
+  echo "Error: Failed to push \"public.ecr.aws/${DOCKER_HUB_TAG}\" to AWS ECR. Aborting."
+  exit_clean 1
+fi
+docker push ${DOCKER_HUB_TAG}
 if [ $? -ne 0 ]; then
   echo "Error: Failed to push \"${DOCKER_HUB_TAG}\" to Docker Hub. Aborting."
   exit_clean 1
