@@ -43,4 +43,4 @@ phases:
       - echo "Killing nginx server..."
       - docker stop nginx-ssh && docker rm nginx-ssh
       - echo "Cleaning up untagged images"
-      - system-test/remove_untagged_containers.py
+      - ./remove_untagged_containers.py
