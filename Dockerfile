@@ -2,7 +2,7 @@ FROM public.ecr.aws/shadowrobot/build-tools:focal-noetic
 
 LABEL Description="This ROS Melodic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
-ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/master/ansible/deploy.sh"
+ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/simplifying_tools/ansible/deploy.sh"
 
 ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
