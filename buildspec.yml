@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-     release_branch: noetic-devel
+     release_branch: noetic-release
      release_tag_flavour: noetic
      release_tag_version: 0.0.0
   parameter-store:
