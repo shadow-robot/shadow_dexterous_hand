@@ -15,7 +15,7 @@ settings:
       - code_coverage
 
 trunks:
-  - name: noetic-devel
+  - name: noetic-release
     jobs:
       - name: code_coverage
       - name: style_check
