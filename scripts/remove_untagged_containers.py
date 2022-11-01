@@ -33,7 +33,7 @@ def gather_untagged_images(client, images):
         image_versions = client.describe_images(repositoryName=image)
         for instance in image_versions["imageDetails"]:
             if "imageTags" not in instance.keys():
-                empty_tags.append({"imageDigest":instance["imageDigest"]})
+                empty_tags.append({"imageDigest": instance["imageDigest"]})
         if empty_tags:
             results[image] = empty_tags
     return results
@@ -47,7 +47,7 @@ def delete_images(client, image_data):
 
 if __name__ == "__main__":
     config = Config(region_name="us-east-1")
-    ecr_client = boto3.client('ecr-public',config=config)
+    ecr_client = boto3.client('ecr-public', config=config)
     images_list = gather_list_of_images(ecr_client)
     empty_tags_list = gather_untagged_images(ecr_client, images_list)
     delete_images(ecr_client, empty_tags_list)
