@@ -49,7 +49,5 @@ phases:
       - ./system-test.sh
   post_build:
     commands:
-      - echo "Killing nginx server..."
-      - docker stop nginx-ssh && docker rm nginx-ssh
       - echo "Cleaning up untagged images"
       - ./remove_untagged_containers.py
