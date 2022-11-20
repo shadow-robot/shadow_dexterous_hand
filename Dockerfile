@@ -13,17 +13,18 @@ ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora
 
 RUN set +x && \
     echo "Running one-liner" && \
-    apt-get update
-RUN wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
+    apt-get update && \
+    \
+    wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
-    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph
-
-RUN echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
+    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
+    \
+    echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros]
-
-RUN echo "Removing cache" && \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros] && \
+    \
+    echo "Removing cache" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig /root/.cache
 
