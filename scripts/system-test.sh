@@ -114,12 +114,10 @@ if [[ "$release_tag_version" =~ $VERSION_REGEX ]]; then
 fi
 DOCKER_HUB_TAG="shadowrobot/dexterous-hand:${release_tag_flavour}-${release_tag_version}"
 
-docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
 if [ $? -ne 0 ]; then
   echo "Error: Failed to log in to Docker Hub. Aborting."
   exit_clean 1
 fi
-aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/shadowrobot
 if [ $? -ne 0 ]; then
   echo "Error: Failed to log in to AWS ECR Hub. Aborting."
   exit_clean 1
