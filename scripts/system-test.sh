@@ -1,4 +1,17 @@
 #!/bin/bash
+# Copyright 2022 Shadow Robot Company Ltd.
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>.
 
 USAGE="\n
 A script to use docker-compose to run system-level tests on Shadow releases. Usage:\n
@@ -101,12 +114,10 @@ if [[ "$release_tag_version" =~ $VERSION_REGEX ]]; then
 fi
 DOCKER_HUB_TAG="shadowrobot/dexterous-hand:${release_tag_flavour}-${release_tag_version}"
 
-docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
 if [ $? -ne 0 ]; then
   echo "Error: Failed to log in to Docker Hub. Aborting."
   exit_clean 1
 fi
-aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/shadowrobot
 if [ $? -ne 0 ]; then
   echo "Error: Failed to log in to AWS ECR Hub. Aborting."
   exit_clean 1

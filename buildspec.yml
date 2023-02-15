@@ -1,5 +1,18 @@
-version: 0.2
+# Copyright 2022 Shadow Robot Company Ltd.
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>.
 
+version: 0.2
 env:
   variables:
      release_branch: noetic-release
@@ -23,14 +36,10 @@ phases:
       - awscli_v1_executable=$(which aws)
       - rm $awscli_v1_executable
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      - unzip awscliv2.zip
+      - unzip -qq awscliv2.zip
       - ./aws/install
       - git checkout $release_branch
-      - echo "Setting up the nginx server"
-      - echo AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI >> AWS_CRED
-      - echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> AWS_CRED
       - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/shadowrobot
-      - docker run --name=nginx-ssh -d -v $CODEBUILD_SRC_DIR:/usr/share/nginx/html -p 8008:80 public.ecr.aws/shadowrobot/nginx:latest
       - docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
       - cd $(find . -name scripts)
       - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
@@ -40,7 +49,5 @@ phases:
       - ./system-test.sh
   post_build:
     commands:
-      - echo "Killing nginx server..."
-      - docker stop nginx-ssh && docker rm nginx-ssh
       - echo "Cleaning up untagged images"
       - ./remove_untagged_containers.py
