@@ -1,4 +1,4 @@
-# Copyright 2022 Shadow Robot Company Ltd.
+# Copyright 2022-2023 Shadow Robot Company Ltd.
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -50,4 +50,5 @@ phases:
   post_build:
     commands:
       - echo "Cleaning up untagged images"
+      - if [[ "$release_tag_flavour-v$release_tag_version" =~ ^$release_tag_flavour+-v[0-9]+\.[0-9]+\.[0-9]+ ]]; then ./gather-changelog.sh "public.ecr.aws/shadowrobot/dexterous-hand" "$release_tag_flavour-v$release_tag_version" "dexterous-hand"; fi
       - ./remove_untagged_containers.py
