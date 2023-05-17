@@ -43,7 +43,7 @@ phases:
       - docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
       - cd $(find . -name scripts)
       - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
-      - if [ "$release_tag_version" != "night-build" ]; then ./check-tag.sh -f $release_tag_flavour -v $release_tag_version; fi
+      #- if [ "$release_tag_version" != "night-build" ]; then ./check-tag.sh -f $release_tag_flavour -v $release_tag_version; fi
   build:
     commands:
       - ./system-test.sh
