@@ -42,3 +42,5 @@ id_rsa.pub
 
 # pre-merge backup files
 *.orig
+
+.vscode
