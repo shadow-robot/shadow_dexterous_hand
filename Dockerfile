@@ -2,11 +2,12 @@ FROM public.ecr.aws/shadowrobot/build-tools:focal-noetic
 
 LABEL Description="This ROS Noetic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
-ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/master/ansible/deploy.sh"
+ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/add_frozen_ur_client_lib/ansible/deploy.sh"
 
 ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
 ENV rosinstall_repo_branch=noetic-release
+ENV SR_BUILD_TOOLS_BRANCH=add_frozen_ur_client_lib
 
 ENV aurora_branch="master"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
