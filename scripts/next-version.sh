@@ -78,22 +78,32 @@ if [ -z "$ALL_REPO_TAGS" ]; then
 else
   if $DEBUG ; then echo -e "There are ${#ALL_REPO_TAGS[*]} Docker Hub tags in the repository:" ; fi
   if $DEBUG ; then echo -e ${ALL_REPO_TAGS[@]} ; fi
+  HIGHEST_MAJOR=0
+  HIGHEST_MINOR=0
+  HIGHEST_PATCH=0
   VERSION_REPO_TAGS=()
   VERSION_REPO_TAG_REGEX='^(.*)-v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
   for repo_tag in ${ALL_REPO_TAGS[@]}; do
     if [[ "$repo_tag" =~ $VERSION_REPO_TAG_REGEX ]]; then
       if [ "${BASH_REMATCH[1]}" == "$TAG_FLAVOUR" ]; then
-        VERSION_REPO_TAGS+=("$repo_tag")
+        CHECKED_MAJOR=${BASH_REMATCH[2]}
+        CHECKED_MINOR=${BASH_REMATCH[3]}
+        CHECKED_PATCH=${BASH_REMATCH[4]}
+        if [ $CHECKED_MAJOR -gt $HIGHEST_MAJOR ]; then
+          HIGHEST_MAJOR=$CHECKED_MAJOR
+          HIGHEST_MINOR=$CHECKED_MINOR
+          HIGHEST_PATCH=$CHECKED_PATCH
+        elif [[ $CHECKED_MAJOR -eq $HIGHEST_MAJOR && $CHECKED_MINOR -gt $HIGHEST_MINOR ]]; then
+          HIGHEST_MINOR=$CHECKED_MINOR
+          HIGHEST_PATCH=$CHECKED_PATCH
+        elif [[ $CHECKED_MAJOR -eq $HIGHEST_MAJOR && $CHECKED_MINOR -eq $HIGHEST_MINOR && $CHECKED_PATCH -gt $HIGHEST_PATCH ]]; then
+          HIGHEST_PATCH=$CHECKED_PATCH
+        fi
+        if $DEBUG ; then echo "HIGHEST_MAJOR=$HIGHEST_MAJOR, HIGHEST_MINOR=$HIGHEST_MINOR, HIGHEST_PATCH=$HIGHEST_PATCH" ; fi
       fi
     fi
   done
-  HIGHEST_TAG=${VERSION_REPO_TAGS[0]}
-  VERSION_REPO_TAG_REGEX='^(.*)-v([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
-  if [[ "$HIGHEST_TAG" =~ $VERSION_REPO_TAG_REGEX ]]; then
-    if [ "${BASH_REMATCH[1]}" == "$TAG_FLAVOUR" ]; then
-      NEW_VERSION="${BASH_REMATCH[2]}.${BASH_REMATCH[3]}.$((${BASH_REMATCH[4]}+1))"
-    fi
-  fi
+  NEW_VERSION="$HIGHEST_MAJOR.$HIGHEST_MINOR.$((HIGHEST_PATCH+1))"
 fi
 echo $NEW_VERSION
 exit 0
