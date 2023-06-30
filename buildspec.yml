@@ -33,6 +33,7 @@ phases:
       docker: 18
   pre_build:
     commands:
+      - touch /etc/apt/apt.conf.d/00aptproxy
       - echo 'Acquire::http::Proxy \"http://172.31.18.155:3142\";' >> /etc/apt/apt.conf.d/00aptproxy
       - awscli_v1_executable=$(which aws)
       - rm $awscli_v1_executable
