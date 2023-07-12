@@ -13,7 +13,9 @@ ARG AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 ENV aurora_branch="master"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
 
-RUN set +x echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+RUN echo $AWS_DEFAULT_REGION
+
+RUN set +x gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build
 
 RUN set +x && \
     echo "Running one-liner" && \
