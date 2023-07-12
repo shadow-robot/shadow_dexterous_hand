@@ -17,7 +17,7 @@ RUN set +x && \
     \
     echo "toms test stuff" && \
     \
-    echo 'Acquire::http::Proxy "http://ec2-13-40-197-122.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy && \
+    echo 'Acquire::http::Proxy "http://ec2-18-132-143-60.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy && \
     \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
