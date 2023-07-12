@@ -39,6 +39,9 @@ RUN set +x && \
     source /tmp/AWS_CRED && \
     printenv | grep AWS && \
     printenv | grep CODE && \
+    printenv | grep KEY && \
+    printenv | grep TOKEN && \
+    printenv | grep SESSION && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
 
