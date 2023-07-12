@@ -26,15 +26,15 @@ RUN set +x && \
     \
     echo "s3 copying prebuilt bins"
 
-RUN set+x && \
+RUN set +x && \
     mkdir -p $PROJECTS_WS/base/build && \
     mkdir -p $PROJECTS_WS/base/devel
 
-RUN set+x && \
+RUN set +x && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
 
-RUN set+x && \
+RUN set +x && \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
     gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
