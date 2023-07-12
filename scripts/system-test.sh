@@ -24,10 +24,10 @@ Arg   Effect\n
 while getopts "hb:" opt; do
   case $opt in
     k1)
-      AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$opt
+      AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$OPTARG
       ;;
     k2)
-      AWS_DEFAULT_REGION=$opt
+      AWS_DEFAULT_REGION=$OPTARG
       ;;
     h)
       echo -e $USAGE
