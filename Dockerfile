@@ -1,3 +1,5 @@
+ARG AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+ARG AWS_DEFAULT_REGION
 FROM public.ecr.aws/shadowrobot/build-tools:focal-noetic
 
 LABEL Description="This ROS Noetic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
@@ -7,8 +9,12 @@ ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build
 ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
 ENV rosinstall_repo_branch=noetic-devel
-ARG AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
-ARG AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
+ARG AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+ARG AWS_DEFAULT_REGION
+
+ENV AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+ENV AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 
 ENV aurora_branch="master"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
