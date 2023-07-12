@@ -46,7 +46,7 @@ phases:
       - if [ "$release_tag_version" != "night-build" ]; then ./check-tag.sh -f $release_tag_flavour -v $release_tag_version; fi
   build:
     commands:
-      - ./system-test.sh k1=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI k2=$AWS_DEFAULT_REGION
+      - ./system-test.sh x=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI y=$AWS_DEFAULT_REGION
   post_build:
     commands:
       - echo "Cleaning up untagged images"
