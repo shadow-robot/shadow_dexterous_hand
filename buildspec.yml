@@ -42,6 +42,9 @@ phases:
       - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/shadowrobot
       - docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
       - cd $(find . -name scripts)
+      - ls /etc | grep apt
+      - ls /etc/apt | grep apt
+      - ls /etc/apt/apt.conf.d
       - echo 'Acquire::http::Proxy "http://ec2-13-40-197-122.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy
       - if [ "$release_tag_version" = "0.0.0" ]; then release_tag_version=$(./next-version.sh -f ${release_tag_flavour}); fi
       - if [ "$release_tag_version" != "night-build" ]; then ./check-tag.sh -f $release_tag_flavour -v $release_tag_version; fi
