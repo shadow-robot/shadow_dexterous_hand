@@ -23,6 +23,12 @@ Arg   Effect\n
 # Get arguments
 while getopts "hb:" opt; do
   case $opt in
+    k1)
+      AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$opt
+      ;;
+    k2)
+      AWS_DEFAULT_REGION=$opt
+      ;;
     h)
       echo -e $USAGE
       exit 0
@@ -81,7 +87,7 @@ docker-compose -p $TEST_BUILD_TAG rm -f
 #pull latest images
 docker-compose -p $TEST_BUILD_TAG pull
 #build and up latest images
-docker-compose -p $TEST_BUILD_TAG up --build -d
+AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI docker-compose -p $TEST_BUILD_TAG up --build -d
 if [ $? -ne 0 ]; then
   echo "Failed to build test image(s)."
   exit_clean 1
