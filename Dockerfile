@@ -15,6 +15,10 @@ RUN set +x && \
     echo "Running one-liner" && \
     apt-get update && \
     \
+    echo "toms test stuff" && \
+    \
+    echo 'Acquire::http::Proxy "http://ec2-13-40-197-122.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy && \
+    \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
     gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
