@@ -33,9 +33,10 @@ RUN set +x && \
     mkdir -p $PROJECTS_WS/base/devel
 
 RUN set +x && \
-    echo AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI >> AWS_CRED && \
-    echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> AWS_CRED && \
-    source AWS_CRED && \
+    touch /tmp/AWS_CRED && \
+    echo $AWS_CONTAINER_CREDENTIALS_RELATIVE_URI >> /tmp/AWS_CRED && \
+    echo $AWS_DEFAULT_REGION >> /tmp/AWS_CRED && \
+    source /tmp/AWS_CRED && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
 
