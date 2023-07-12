@@ -21,12 +21,12 @@ Arg   Effect\n
 -b    Optional string build tag. If not set, tries to find Jenkins' \$BUILD-TAG environment variable. Falls back to random UUID. \n"
 
 # Get arguments
-while getopts "hb:" opt; do
+while getopts "hbxy:" opt; do
   case $opt in
-    k1)
+    x)
       AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$OPTARG
       ;;
-    k2)
+    y)
       AWS_DEFAULT_REGION=$OPTARG
       ;;
     h)
@@ -42,6 +42,8 @@ while getopts "hb:" opt; do
       ;;
   esac
 done
+
+echo "AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}"
 
 if [ -z "$TEST_BUILD_TAG" ]; then
   if [ -z "$BUILD_TAG" ]; then
