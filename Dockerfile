@@ -13,6 +13,11 @@ ARG AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 ENV aurora_branch="master"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
 
+RUN set +x echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+
+RUN gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build
+
+
 RUN set +x && \
     echo "Running one-liner" && \
     apt-get update && \
@@ -34,14 +39,8 @@ RUN set +x && \
 
 RUN set +x && \
     touch /tmp/AWS_CRED && \
-    echo $AWS_CONTAINER_CREDENTIALS_RELATIVE_URI >> /tmp/AWS_CRED && \
-    echo $AWS_DEFAULT_REGION >> /tmp/AWS_CRED && \
-    source /tmp/AWS_CRED && \
-    printenv | grep AWS && \
-    printenv | grep CODE && \
-    printenv | grep KEY && \
-    printenv | grep TOKEN && \
-    printenv | grep SESSION && \
+    export "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" && \
+    export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
 
