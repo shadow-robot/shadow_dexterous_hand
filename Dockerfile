@@ -24,8 +24,8 @@ ENV PATH="/usr/lib/ccache:$PATH"
 
 ENV tome_log_file="/home/user/time_log"
 
-gosu $MY_USERNAME touch $time_log_file
-echo "start time: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file 
+#gosu $MY_USERNAME touch $time_log_file
+#echo "start time: $(date +%s)" | gosu #$MY_USERNAME tee -a $time_log_file 
 
 RUN set +x && \
     echo "Running one-liner" && \
