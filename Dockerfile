@@ -37,11 +37,10 @@ RUN set +x && \
     echo "s3 copying prebuilt bins"
 
 RUN set +x && \
-    mkdir -p $PROJECTS_WS/base/build && \
-    mkdir -p $PROJECTS_WS/base/devel
+    gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/build && \
+    gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/devel
 
 RUN set +x && \
-    touch /tmp/AWS_CRED && \
     export "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" && \
     export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
