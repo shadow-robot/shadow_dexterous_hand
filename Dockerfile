@@ -20,6 +20,7 @@ ENV aurora_branch="master"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
 
 RUN echo $AWS_DEFAULT_REGION
+ENV PATH="/usr/lib/ccache:$PATH"
 
 RUN set +x && \
     echo "Running one-liner" && \
@@ -45,8 +46,6 @@ RUN set +x && \
     export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/ccache/ /home/user/.ccache
 
-    #gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
-    #gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
 
 RUN set +x && \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
