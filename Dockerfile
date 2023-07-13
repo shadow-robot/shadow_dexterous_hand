@@ -52,6 +52,9 @@ RUN set +x && \
     gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
     \
     echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
+    rm /tmp/aurora && \
+    wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
+    chmod 755 /tmp/aurora && \
     gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,libglvnd,vscode,warehouse_ros] && \
     \
     echo "Removing cache" && \
