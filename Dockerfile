@@ -22,7 +22,7 @@ ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora
 RUN echo $AWS_DEFAULT_REGION
 ENV PATH="/usr/lib/ccache:$PATH"
 
-ENV tome_log_file="/home/user/time_log"
+ENV time_log_file="/home/user/time_log"
 
 #gosu $MY_USERNAME touch $time_log_file
 #echo "start time: $(date +%s)" | gosu #$MY_USERNAME tee -a $time_log_file 
