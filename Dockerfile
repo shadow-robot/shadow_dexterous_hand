@@ -21,6 +21,8 @@ ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora
 
 RUN echo $AWS_DEFAULT_REGION
 
+RUN adufndjgrgsdfz
+
 RUN set +x && \
     echo "Running one-liner" && \
     apt-get update && \
