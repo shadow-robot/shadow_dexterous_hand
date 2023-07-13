@@ -17,8 +17,6 @@ services:
   system-test:
     build:
       context: .
-      args:
-        AWS_DEFAULT_REGION: "sausages"
     links:
       - system-under-test
     environment:
@@ -26,4 +24,6 @@ services:
   system-under-test:
     build:
       context: ..
+      args:
+        AWS_DEFAULT_REGION: "sausages"
     command: /ros_entrypoint.sh roscore
