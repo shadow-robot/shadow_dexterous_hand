@@ -25,5 +25,5 @@ services:
     build:
       context: ..
       args:
-        AWS_DEFAULT_REGION: "sausages"
+        AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
     command: /ros_entrypoint.sh roscore
