@@ -29,33 +29,29 @@ RUN set +x && \
     \
     echo 'Acquire::http::Proxy "http://ec2-18-132-143-60.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy && \
     \
-    echo "aws pre install" && \
+    echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[aws-cli] && \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros] && \
     \
     echo "s3 copying prebuilt bins"
 
-RUN set +x && \
-    gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/build && \
-    gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/devel
+# RUN set +x && \
+#     gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/build && \
+#     gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/devel
 
 RUN set +x && \
     export "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" && \
     export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
-    gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
-    gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
+    gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/ccache/ /home/user/.ccache
+
+    #gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/build/ $PROJECTS_WS/base/build && \
+    #gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/devel/ $PROJECTS_WS/base/devel
 
 RUN set +x && \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
     gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
-    \
-    echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
-    rm /tmp/aurora && \
-    wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
-    chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,libglvnd,vscode,warehouse_ros] && \
     \
     echo "Removing cache" && \
     apt-get clean && \
