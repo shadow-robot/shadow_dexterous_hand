@@ -26,4 +26,5 @@ services:
       context: ..
       args:
         AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+        AWS_CONTAINER_CREDENTIALS_RELATIVE_URI: "$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
     command: /ros_entrypoint.sh roscore
