@@ -18,7 +18,7 @@ services:
     build:
       context: .
       args:
-        AWS_DEFAULT_REGION="sausages"
+        AWS_DEFAULT_REGION: "sausages"
     links:
       - system-under-test
     environment:
