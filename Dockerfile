@@ -24,9 +24,6 @@ ENV PATH="/usr/lib/ccache:$PATH"
 
 ENV time_log_file="/home/user/time_log"
 
-#gosu $MY_USERNAME touch $time_log_file
-#echo "start time: $(date +%s)" | gosu #$MY_USERNAME tee -a $time_log_file 
-
 RUN set +x && \
     echo "Running one-liner" && \
     gosu $MY_USERNAME touch $time_log_file && \
@@ -44,19 +41,13 @@ RUN set +x && \
     gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros] && \
     \
     echo "done, starting ccache download: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
-    echo "s3 copying prebuilt bins"
-
-# RUN set +x && \
-#     gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/build && \
-#     gosu $MY_USERNAME mkdir -p $PROJECTS_WS/base/devel
-
-RUN set +x && \
+    echo "s3 copying prebuilt bins" && \
+    \
     export "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" && \
     export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/ccache/ /home/user/.ccache	&& \
-    echo "done, running oneliner: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file
-
-RUN set +x && \
+    echo "done, running oneliner: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
+    \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
     gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
@@ -65,7 +56,12 @@ RUN set +x && \
     echo "done, removing cache: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig /root/.cache && \
+    echo "done, Removing ccache: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
+    echo "Removing ccache" && \
+    cd /home/$MY_USERNAME/.ccache && \
+    for x in $(ls | grep -v conf); do rm -r $x; done && \
     echo "done: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file
+
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
