@@ -45,7 +45,7 @@ RUN set +x && \
     \
     export "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" && \
     export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
-    gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/ccache/ /home/user/.ccache	&& \
+    # gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/ccache/ /home/user/.ccache	&& \
     echo "done, running oneliner: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
     \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
