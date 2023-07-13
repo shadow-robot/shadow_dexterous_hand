@@ -15,7 +15,10 @@
 version: "3"
 services:
   system-test:
-    build: .
+    build:
+      context: .
+      args:
+        AWS_DEFAULT_REGION="sausages"
     links:
       - system-under-test
     environment:
