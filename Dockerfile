@@ -32,7 +32,7 @@ RUN set +x && \
     \
     echo "toms test stuff" && \
     \
-    echo 'Acquire::http::Proxy "http://ec2-18-132-143-60.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy && \
+    # echo 'Acquire::http::Proxy "http://ec2-18-132-143-60.eu-west-2.compute.amazonaws.com:3142";' | tee /etc/apt/apt.conf.d/00aptproxy && \
     \
     echo "installing aws, etc..: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
     echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
