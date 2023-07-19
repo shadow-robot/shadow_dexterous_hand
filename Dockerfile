@@ -38,8 +38,9 @@ RUN set +x && \
     echo "Installing AWS CLI, libglvnd, vscode and warehouse_ros" && \
     wget -O /tmp/aurora "$( echo "$aurora_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/aurora && \
-    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros] && \
-    \
+    gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros]
+    
+RUN set +x && \
     echo "done, starting ccache download: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
     echo "s3 copying prebuilt bins" && \
     \
@@ -51,6 +52,9 @@ RUN set +x && \
     wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
     chmod 755 /tmp/oneliner && \ 
     gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
+    \
+    echo "Uploading ccache" && \
+    gosu $MY_USERNAME aws s3 sync /home/user/.ccache s3://backup-build-binaries/ccache/ && \
     \
     echo "Removing cache" && \
     echo "done, removing cache: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
