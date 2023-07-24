@@ -4,7 +4,7 @@ FROM public.ecr.aws/shadowrobot/build-tools:focal-noetic
 
 LABEL Description="This ROS Noetic image contains Shadow's dexterous hand software with build tools. It includes IDE environments." Vendor="Shadow Robot" Version="1.0"
 
-ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/F_test_ccache/ansible/deploy.sh"
+ENV remote_shell_script="https://raw.githubusercontent.com/shadow-robot/sr-build-tools/F_testing_deps_first_tom/ansible/deploy.sh"
 
 ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
@@ -24,7 +24,10 @@ ENV PATH="/usr/lib/ccache:$PATH"
 
 ENV time_log_file="/home/user/time_log"
 
-RUN set +x && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=cache,target=/home/user/.cache/pip \
+    set +x && \
     echo "Running one-liner" && \
     gosu $MY_USERNAME touch $time_log_file && \
     echo "start time: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
@@ -41,23 +44,27 @@ RUN set +x && \
     gosu $MY_USERNAME /tmp/aurora install_software --branch $aurora_branch software=[production_tools,aws-cli,libglvnd,vscode,warehouse_ros]
     
 RUN set +x && \
+    echo "done, running oneliner in clone&install_deps mode: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
+    \
+    wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
+    chmod 755 /tmp/oneliner && \ 
+    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
+
+
+RUN set +x && \
     echo "done, starting ccache download: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
     echo "s3 copying prebuilt bins" && \
     \
     export "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" && \
     export "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" && \
     gosu $MY_USERNAME aws s3 sync s3://backup-build-binaries/ccache/ /home/user/.ccache	&& \
-    echo "done, running oneliner: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
-    \
-    wget -O /tmp/oneliner "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" && \
-    chmod 755 /tmp/oneliner && \ 
-    gosu $MY_USERNAME /tmp/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -t pyqtgraph && \
-    \
-    echo "Uploading ccache" && \
-    gosu $MY_USERNAME aws s3 sync /home/user/.ccache s3://backup-build-binaries/ccache/ && \
-    \
-    echo "Removing cache" && \
-    echo "done, removing cache: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
+    echo "Running one-liner in build mode" && \
+    gosu $MY_USERNAME /home/user/oneliner -w $PROJECTS_WS/base -r $rosinstall_repo -b $rosinstall_repo_branch -i repository.rosinstall -v "noetic" -s false -d "vagrant_site_build.yml" && \
+    # echo "Uploading ccache" && \
+    # gosu $MY_USERNAME aws s3 sync /home/user/.ccache s3://backup-build-binaries/ccache/ && \
+    # \
+    # echo "Removing cache" && \
+    # echo "done, removing cache: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig /root/.cache && \
     echo "done, Removing ccache: $(date +%s)" | gosu $MY_USERNAME tee -a $time_log_file && \
