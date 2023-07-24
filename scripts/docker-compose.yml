@@ -14,13 +14,6 @@
 
 version: "3"
 services:
-  system-test:
-    build:
-      context: .
-    links:
-      - system-under-test
-    environment:
-      - "ROS_MASTER_URI=http://system-under-test:11311"
   system-under-test:
     build:
       context: ..

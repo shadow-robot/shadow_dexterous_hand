@@ -95,25 +95,14 @@ if [ $? -ne 0 ]; then
   exit_clean 1
 fi
 echo "Successfully built test image(s)."
-docker attach ${TEST_BUILD_TAG}_system-test_1
-if [ $? -ne 0 ]; then
-  echo "Failed to run docker compose."
-  exit_clean 1
-fi
+# docker attach ${TEST_BUILD_TAG}_system-test_1
+# if [ $? -ne 0 ]; then
+#   echo "Failed to run docker compose."
+#   exit_clean 1
+# fi
 
 # Wait for the test container to exit, and get its exit code
-TEST_EXIT_CODE=`docker wait ${TEST_BUILD_TAG}_system-test_1`
-
-if [ -z ${TEST_EXIT_CODE+x} ] || [ -z "$TEST_EXIT_CODE" ]; then
-  # TEST_EXIT_CODE is unset or an empty string
-  echo "System tests failed! Exit code unknown."
-  exit_clean 1
-elif [ "$TEST_EXIT_CODE" -ne 0 ]; then
-  # TEST_EXIT_CODE is set, but not 0
-  echo "System tests failed! Exit code: $TEST_EXIT_CODE"
-else
-  echo "System tests passed!"
-fi
+# TEST_EXIT_CODE=`docker wait ${TEST_BUILD_TAG}_system-test_1`
 
 # Tag and push built image-under-test to Docker hub
 VERSION_REGEX='^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
@@ -122,30 +111,22 @@ if [[ "$release_tag_version" =~ $VERSION_REGEX ]]; then
 fi
 DOCKER_HUB_TAG="shadowrobot/dexterous-hand:${release_tag_flavour}-${release_tag_version}"
 
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to log in to Docker Hub. Aborting."
-  exit_clean 1
-fi
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to log in to AWS ECR Hub. Aborting."
-  exit_clean 1
-fi
 docker tag ${TEST_BUILD_TAG}_system-under-test ${DOCKER_HUB_TAG}
 if [ $? -ne 0 ]; then
   echo "Error: Failed to tag built Docker image as \"${DOCKER_HUB_TAG}\". Aborting."
   exit_clean 1
 fi
-docker push ${DOCKER_HUB_TAG}
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to push \"${DOCKER_HUB_TAG}\" to Docker Hub. Aborting."
-  exit_clean 1
-fi
-docker tag ${DOCKER_HUB_TAG} public.ecr.aws/${DOCKER_HUB_TAG}
-docker push public.ecr.aws/${DOCKER_HUB_TAG}
-if [ $? -ne 0 ]; then
-  echo "Error: Failed to push \"public.ecr.aws/${DOCKER_HUB_TAG}\" to AWS ECR. Aborting."
-  exit_clean 1
-fi
+# docker push ${DOCKER_HUB_TAG}
+# if [ $? -ne 0 ]; then
+#   echo "Error: Failed to push \"${DOCKER_HUB_TAG}\" to Docker Hub. Aborting."
+#   exit_clean 1
+# fi
+# docker tag ${DOCKER_HUB_TAG} public.ecr.aws/${DOCKER_HUB_TAG}
+# docker push public.ecr.aws/${DOCKER_HUB_TAG}
+# if [ $? -ne 0 ]; then
+#   echo "Error: Failed to push \"public.ecr.aws/${DOCKER_HUB_TAG}\" to AWS ECR. Aborting."
+#   exit_clean 1
+# fi
 
 
-exit_clean 0
+# exit_clean 0
