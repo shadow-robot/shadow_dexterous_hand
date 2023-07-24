@@ -20,6 +20,8 @@ services:
       args:
         AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
         AWS_CONTAINER_CREDENTIALS_RELATIVE_URI: "$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
+        COMPOSE_DOCKER_CLI_BUILD: 1
+        DOCKER_BUILDKIT: 1 
     command: /ros_entrypoint.sh roscore
     volumes:
       - /codebuild_docker_build/ros_build_cache:/home/user/.ccache
