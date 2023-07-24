@@ -89,7 +89,7 @@ docker-compose -p $TEST_BUILD_TAG rm -f
 #pull latest images
 docker-compose -p $TEST_BUILD_TAG pull
 #build and up latest images
-DOCKER_BUILDKIT=1 docker-compose -p $TEST_BUILD_TAG up --build -d  # --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION --build-arg AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -p $TEST_BUILD_TAG up --build -d  # --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION --build-arg AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
 if [ $? -ne 0 ]; then
   echo "Failed to build test image(s)."
   exit_clean 1
