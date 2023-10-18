@@ -26,7 +26,7 @@ RUN set +x && \
     \
     echo "Removing cache" && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig /root/.cache
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /home/$MY_USERNAME/.ansible /home/$MY_USERNAME/.gitconfig /root/.cache /home/$MY_USERNAME/.shadow_miniconda
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
