@@ -8,7 +8,7 @@ ENV PROJECTS_WS=/home/user/projects/shadow_robot
 ENV rosinstall_repo=shadow_dexterous_hand
 ENV rosinstall_repo_branch=noetic-devel
 
-ENV aurora_branch="master"
+ENV aurora_branch="F_testing_conda_deployment"
 ENV aurora_script="https://raw.githubusercontent.com/shadow-robot/aurora/$aurora_branch/bin/run-ansible.sh"
 
 RUN set +x && \
